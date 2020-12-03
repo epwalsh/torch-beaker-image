@@ -20,3 +20,7 @@ docker-image :
 .PHONY : docker-run
 docker-run :
 	$(DOCKER_RUN_CMD) --gpus all --env CONFIG=$(CONFIG) $(DOCKER_IMAGE_NAME)
+
+.PHONY : docker-push
+docker-push : docker-image
+	docker push $(DOCKER_IMAGE_NAME)
