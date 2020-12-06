@@ -19,7 +19,11 @@ docker-image :
 
 .PHONY : docker-run
 docker-run :
-	$(DOCKER_RUN_CMD) --gpus all --env CONFIG=$(CONFIG) $(DOCKER_IMAGE_NAME)
+	$(DOCKER_RUN_CMD) \
+		--gpus all \
+		--env CONFIG=$(CONFIG) \
+		--env PIP_EXTRAS=git+https://github.com/allenai/allennlp.git@torchvision \
+		$(DOCKER_IMAGE_NAME)
 
 .PHONY : docker-push
 docker-push : docker-image
