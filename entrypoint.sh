@@ -16,6 +16,7 @@ fi
 
 if [ ! -z "$PIP_EXTRAS" ]; then
     pip install --upgrade --no-cache-dir $PIP_EXTRAS
+    pip uninstall -y dataclasses
 fi
 
 # allennlp test-install
