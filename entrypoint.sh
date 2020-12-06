@@ -19,5 +19,7 @@ if [ ! -z "$PIP_EXTRAS" ]; then
     pip uninstall -y dataclasses
 fi
 
+pip freeze
+
 # allennlp test-install
 allennlp train $CONFIG -s /output --file-friendly-logging --overrides $OVERRIDES
