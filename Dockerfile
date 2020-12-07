@@ -16,9 +16,6 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 
-# Disable parallelism in tokenizers because it doesn't help, and sometimes hurts.
-ENV TOKENIZERS_PARALLELISM 0
-
 WORKDIR /stage/
 
 # Install torch ecosystem first. This build arg should be in the form of a version requirement,
@@ -34,5 +31,13 @@ WORKDIR /app/
 
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
+
+# Disable parallelism in tokenizers because it doesn't help, and sometimes hurts.
+ENV TOKENIZERS_PARALLELISM 0
+
+# This slows some CPU computations down but avoids the potential for certain dead locks
+# when using multiprocessing with the 'fork' spawn method.
+# See https://discuss.pytorch.org/t/pytorch-cpu-hangs-on-nn-linear/17748/4.
+ENV OMP_NUM_THREADS 1
 
 ENTRYPOINT ["./entrypoint.sh"]
