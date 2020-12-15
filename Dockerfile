@@ -18,10 +18,8 @@ LABEL com.nvidia.volumes.needed="nvidia_driver"
 
 WORKDIR /stage/
 
-# Install torch ecosystem first. This build arg should be in the form of a version requirement,
-# like 'torch==1.7' or 'torch==1.7+cu110 -f https://download.pytorch.org/whl/torch_stable.html'.
-ARG TORCH="torch torchvision"
-RUN pip install --no-cache-dir ${TORCH}
+RUN pip install --no-cache-dir torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip install --no-cache-dir detectron2 -f https://dl.fbaipublicfiles.com/detectron2/wheels/cu101/torch1.7/index.html
 
 ARG ALLENNLP_COMMIT_SHA
 RUN pip install --no-cache-dir git+https://github.com/allenai/allennlp.git@${ALLENNLP_COMMIT_SHA} \
