@@ -1,16 +1,29 @@
 version: v2-alpha
-description: AllenNLP Training Experiment
+description: Same as 029 but smaller LR
 tasks:
   - name: train
     image:
-      docker: "epwalsh/allennlp-beaker:latest"
+      docker: # TODO
+      # docker: "epwalsh/allennlp-beaker:f806eb74573f9efb53e24263d095e90ed7b234cd-cuda101"
     result:
-      path: /output
+      path: "/output"
     envVars:
-      CONFIG: "https://raw.githubusercontent.com/allenai/allennlp-models/master/training_config/rc/transformer_qa.jsonnet"
-      OVERRIDES: "{}"
-      # PIP_EXTRAS:
+      - name: CONFIG
+        value: # TODO
+      # Example:
+      # - name: CONFIG
+      #   value: "https://raw.githubusercontent.com/epwalsh/vilbert_vqa/fb56d71d6ec2831bb1f9be05fc17be40f5336e20/vilbert_vqa_from_huggingface.jsonnet"
+      - name: OVERRIDES
+        value: '{"random_seed":4,"numpy_seed":4,"pytorch_seed":4}'
+      - name: BEAKER_FEATURE_SHARED_MEMORY_OVERRIDE
+        value: "true"
+    datasets:
+      # TODO:
+      # - mountPath: "/data/vqa"
+      #   source:
+      #     beaker: "ds_zbkh08o8ujxu"
     context:
-      cluster: ai2/shared-v100-8x-16x
+      cluster: "ai2/shared-v100-1x-8x"
+      # cluster: "ai2/on-prem-ai2-server"
     resources:
       gpuCount: 1
